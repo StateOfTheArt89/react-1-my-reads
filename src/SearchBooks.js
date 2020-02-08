@@ -1,39 +1,46 @@
 import React from "react";
 import * as BooksAPI from "./BooksAPI";
+import Book from "./Book";
+import { Link } from "react-router-dom";
 
 class SearchBooks extends React.Component {
-    onchange(text){
-      BooksAPI.search(text, 10).then(result => console.log(result));
-    }
+  state = {
+    results: []
+  };
 
-    render() { 
-        return (
-          <div className="search-books">
-            <div className="search-books-bar">
-              <a
-                className="close-search"
-                onClick={() => this.setState({ showSearchPage: false })}
-              >
-                Close
-              </a>
-              <div className="search-books-input-wrapper">
-                {/*
-                  NOTES: The search from BooksAPI is limited to a particular set of search terms.
-                  You can find these search terms here:
-                  https://github.com/udacity/reactnd-project-myreads-starter/blob/master/SEARCH_TERMS.md
+  onchange(text) {
+    BooksAPI.search(text, 5).then(result =>
+      this.setState({ results: result })
+    );
+  }
 
-                  However, remember that the BooksAPI.search method DOES search by title or author. So, don't worry if
-                  you don't find a specific author or title. Every search is limited by search terms.
-                */}
-                <input type="text" placeholder="Search by title or author" onChange={event => this.onchange(event.target.value)} />
-              </div>
-            </div>
-            <div className="search-books-results">
-              <ol className="books-grid"></ol>
-            </div>
-          </div>);
-    }
-
-};
+  render() {
+    return (
+      <div className="search-books">
+        <div className="search-books-bar">
+          <Link to="/" className="close-search" />
+          <div className="search-books-input-wrapper">
+            <input
+              type="text"
+              placeholder="Search by title or author"
+              onChange={event => this.onchange(event.target.value)}
+            />
+          </div>
+        </div>
+        <div className="search-books-results">
+          <ol className="books-grid">
+            {this.state.results.map(book => (
+              <Book
+                title={book.title}
+                authors={book.authors}
+                imageurl={book.imageLinks.smallThumbnail}
+              />
+            ))}
+          </ol>
+        </div>
+      </div>
+    );
+  }
+}
 
 export default SearchBooks;

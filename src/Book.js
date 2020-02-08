@@ -2,23 +2,19 @@ import React from "react";
 import BookCover from "./BookCover";
 import BookShelfChanger from "./BookShelfChanger";
 
-class Book extends React.Component {
-    render() { 
-        return (
-            <li>
-        <div className="book">
-          <div className="book-top">
-            <BookCover imageurl={this.props.imageurl} />
-            <BookShelfChanger/>
-          </div>
-          <div className="book-title">
-            {this.props.title}
-          </div>
-          <div className="book-authors">{this.props.authors}</div>
+const Book = props =>  {
+  return (
+    <li>
+      <div className="book">
+        <div className="book-top">
+          <BookCover imageurl={props.imageurl} />
+          <BookShelfChanger onchange={(shelf) => props.updateBookRecord(props, shelf)} shelf={props.shelf}/>
         </div>
-        </li>)
-    }
-
-};
+        <div className="book-title">{props.title}</div>
+        <div className="book-authors">{props.authors}</div>
+      </div>
+    </li>
+  );
+}
 
 export default Book;
