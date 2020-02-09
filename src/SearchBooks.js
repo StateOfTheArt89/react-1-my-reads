@@ -9,7 +9,12 @@ class SearchBooks extends React.Component {
   };
 
   onchange(text) {
-    BooksAPI.search(text, 5).then(result => this.setState({ results: result }));
+    BooksAPI.search(text, 5).then(res => {
+      if (res === undefined) {
+        res = []
+      }
+      this.setState({ results: res })
+    }).catch(res => this.setState({ results: [] }));
   }
 
   getShelf = bookId => {
