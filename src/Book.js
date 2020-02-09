@@ -7,11 +7,11 @@ const Book = props =>  {
     <li>
       <div className="book">
         <div className="book-top">
-          <BookCover imageurl={props.imageurl} />
-          <BookShelfChanger onchange={(shelf) => props.updateBookRecord(props, shelf)} shelf={props.shelf}/>
+          <BookCover imageurl={props.bookData.imageLinks.smallThumbnail} />
+          <BookShelfChanger onchange={(shelf) => props.updateBookRecord(props.bookData, shelf)} shelf={props.bookData.shelf}/>
         </div>
-        <div className="book-title">{props.title}</div>
-        <div className="book-authors">{props.authors}</div>
+        <div className="book-title">{props.bookData.title}</div>
+        <div className="book-authors">{props.bookData.authors}</div>
       </div>
     </li>
   );

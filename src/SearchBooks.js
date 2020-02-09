@@ -9,10 +9,13 @@ class SearchBooks extends React.Component {
   };
 
   onchange(text) {
-    BooksAPI.search(text, 5).then(result =>
-      this.setState({ results: result })
-    );
+    BooksAPI.search(text, 5).then(result => this.setState({ results: result }));
   }
+
+  updateBookRecord = (bookId, shelf) => {
+    console.log(bookId, shelf);
+    BooksAPI.update(bookId, shelf);
+  };
 
   render() {
     return (
@@ -31,9 +34,12 @@ class SearchBooks extends React.Component {
           <ol className="books-grid">
             {this.state.results.map(book => (
               <Book
+                id={book.id}
+                key={book.id}
                 title={book.title}
                 authors={book.authors}
                 imageurl={book.imageLinks.smallThumbnail}
+                updateBookRecord={this.updateBookRecord}
               />
             ))}
           </ol>
