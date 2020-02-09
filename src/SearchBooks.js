@@ -12,9 +12,18 @@ class SearchBooks extends React.Component {
     BooksAPI.search(text, 5).then(result => this.setState({ results: result }));
   }
 
-  updateBookRecord = (bookId, shelf) => {
-    console.log(bookId, shelf);
-    BooksAPI.update(bookId, shelf);
+  getShelf = bookId => {
+    const categories = ["currentlyReading", "wantToRead", "read"];
+    for (let category of categories) {
+      let bookFound = this.props.booksShelfes[category].find(
+        book => book.id === bookId
+      );
+      if (bookFound !== undefined) {
+        return category;
+      }
+    }
+
+    return "none";
   };
 
   render() {
@@ -34,12 +43,11 @@ class SearchBooks extends React.Component {
           <ol className="books-grid">
             {this.state.results.map(book => (
               <Book
-                id={book.id}
+                bookData={book}
+                imageLinks={book.imageLinks}
+                shelf={this.getShelf(book.id)}
                 key={book.id}
-                title={book.title}
-                authors={book.authors}
-                imageurl={book.imageLinks.smallThumbnail}
-                updateBookRecord={this.updateBookRecord}
+                updateBookRecord={this.props.updateBookRecord}
               />
             ))}
           </ol>
